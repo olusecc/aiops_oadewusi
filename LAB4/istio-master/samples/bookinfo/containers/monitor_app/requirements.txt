@@ -1,0 +1,8 @@
+pandas
+prophet
+prometheus_client
+scikit-learn
+numpy==1.26.0
+requests
+
+
