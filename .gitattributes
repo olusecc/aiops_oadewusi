@@ -1,0 +1,2 @@
+LAB5/google-cloud-sdk/bin/kubectl.1.31 filter=lfs diff=lfs merge=lfs -text
+LAB5/istio-1.23.2/bin/istioctl filter=lfs diff=lfs merge=lfs -text
