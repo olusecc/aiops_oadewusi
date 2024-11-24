@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monitorappdeploy
+  labels:
+    app: monitor
+spec:
+  replicas: 0 
+  selector:
+    matchLabels:
+      app: monitorapp
+  template:
+    metadata:
+      labels:
+        app: monitorapp
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+      - name: moncontainer
+        imagePullPolicy: Always
+        image: index.docker.io/oadewusi/monitorappv4:latest
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: 200m
