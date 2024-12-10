@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anomaly-monitor-frontend-shipping
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: anomaly-monitor-frontend-shipping
+  template:
+    metadata:
+      labels:
+        app: anomaly-monitor-frontend-shipping
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8001"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+      - name: anomaly-monitor
+        image: index.docker.io/oadewusi/anomaly-monitor:v4
+        imagePullPolicy: Always
+        command: ["python"]
+        args:
+          [
+            "anomaly-monitor.py",
+            "-f", "frontend",
+            "-t", "shippingservice",
+            "-d", "/app/training/frontend_shippingservice.json",
+            "-p", "8001",
+            "--prefix", "lab7_frontend_2_shippingservice"
+          ]
+        ports:
+        - containerPort: 8001
+        resources:
+          requests:
+            cpu: 200m

@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: incident-detector
+  labels:
+    app: incident-detector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: incident-detector
+  template:
+    metadata:
+      labels:
+        app: incident-detector
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8003"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+      - name: incident-detector
+        imagePullPolicy: Always
+        image: oadewusi/incident:v3
+        command: ["python"]
+        args:
+          [
+            "incident_detector.py",
+            "--threshold", "4",
+            "--services", "lab7_frontend_2_productcatalog", "lab7_frontend_2_shippingservice",
+            "--port", "8003"
+          ]
+        ports:
+        - containerPort: 8003
